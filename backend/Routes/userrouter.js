@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const userrouter = express.Router();
 const {User, Bank} = require('../models/db');
 const config = require('../config');
@@ -128,6 +129,43 @@ userrouter.get('/balance',authMiddleware, async(req,res)=>{
     })
 })
 
+//  AMOUNT TRANSFER CODE
+
+userrouter.post("/transfer", authMiddleware, async (req, res) => {
+    const session = await mongoose.startSession();
+
+    session.startTransaction();
+    const { amount, to } = req.body;
+
+    // Fetch the accounts within the transaction
+    const account = await Bank.findOne({ userId: req.userId }).session(session);
+
+    if (!account || account.balance < amount) {
+        await session.abortTransaction();
+        return res.status(400).json({
+            message: "Insufficient balance"
+        });
+    }
+
+    const toAccount = await Bank.findOne({ userId: to }).session(session);
+
+    if (!toAccount) {
+        await session.abortTransaction();
+        return res.status(400).json({
+            message: "Invalid account"
+        });
+    }
+
+    // Perform the transfer
+    await Bank.updateOne({ userId: req.userId }, { $inc: { bankBalance: -amount } }).session(session);
+    await Bank.updateOne({ userId: to }, { $inc: { bankBalance: amount } }).session(session);
+
+    // Commit the transaction
+    await session.commitTransaction();
+    res.json({
+        message: "Transfer successful"
+    });
+});
 
 
 module.exports = userrouter;

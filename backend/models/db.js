@@ -1,5 +1,6 @@
+const { Double } = require('bson');
 const mongoose = require('mongoose');
-
+// const Float = require('mongoose-float').loadType(mongoose);
 mongoose.connect("mongodb+srv://paytm:paytm1234@cluster0.0fogi.mongodb.net")
 
 const UserSchema = new mongoose.Schema(
@@ -38,7 +39,7 @@ const BankSchema = new mongoose.Schema({
      required:true
     },
     bankBalance: {
-        type: String,
+        type:mongoose.Types.Decimal128,
         required:true
     }
 })
