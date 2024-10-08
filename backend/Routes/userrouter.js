@@ -17,8 +17,8 @@ userrouter.post('/signup', async (req,res)=>{
     const firstname = req.body.firstname
 
     const existuser = await User.findOne({
-        $or : [{username},{email}]
-        // {username}
+        // $or : [{username},{email}]
+        username
     })
 
     if (existuser){
@@ -166,6 +166,15 @@ userrouter.post("/transfer", authMiddleware, async (req, res) => {
         message: "Transfer successful"
     });
 });
+
+// userrouter.get("/users", async(res,req)=>{
+//     const users = await User.find({})
+//     console.log(users);
+    
+//     res.json({
+//         message: "Transfer successful"
+//     });
+// })
 
 
 module.exports = userrouter;

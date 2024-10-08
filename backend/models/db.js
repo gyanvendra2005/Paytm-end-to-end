@@ -7,11 +7,11 @@ const UserSchema = new mongoose.Schema(
     {
         username: {
             type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            index: true
+            // required: true,
+            // unique: true,
+            // lowercase: true,
+            // trim: true,
+            // index: true
         },
         firstname:{
             type:String,
@@ -25,10 +25,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true   
         },
-        email: {
-            type: String,
-            required: true
-        }
+        // email: {
+        //     type: String,
+        //     required: true
+        // }
     }
 )
 
