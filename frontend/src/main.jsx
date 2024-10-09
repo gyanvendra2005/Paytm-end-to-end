@@ -7,6 +7,7 @@ import Home from './Components/Home/Home.jsx'
 import Signin from './Components/Signin/Signin.jsx'
 import Signup from './Components/Signup/Signup.jsx'
 import Layout from './Layout.jsx'
+import { SendMoney } from './Components/SendMoney/SendMoney.jsx'
 
 const Router = createBrowserRouter([
   {
@@ -26,7 +27,8 @@ const Router = createBrowserRouter([
         element:<Signin />
       },
       {
-        path:''
+        path:'/send',
+        element:<SendMoney />
       }
 
      ]

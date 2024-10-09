@@ -94,7 +94,7 @@ userrouter.put('/update', authMiddleware, async (req, res)=>{
 })
 
 // search user
-userrouter.get('/search',async (req,res)=>{
+userrouter.get('/search', authMiddleware, async (req,res)=>{
     const filter = req.query.filter || "";
 
     const users=await User.find({
@@ -140,7 +140,7 @@ userrouter.post("/transfer", authMiddleware, async (req, res) => {
     // Fetch the accounts within the transaction
     const account = await Bank.findOne({ userId: req.userId }).session(session);
 
-    if (!account || account.balance < amount) {
+    if (!account || account.bankBalance < amount) {
         await session.abortTransaction();
         return res.status(400).json({
             message: "Insufficient balance"

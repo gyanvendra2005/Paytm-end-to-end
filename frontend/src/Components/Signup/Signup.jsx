@@ -1,14 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
      
      const [firstname ,setFirstName] = useState("");
      const [lastname, setLastName] = useState("");
      const [password, setPassword] = useState("");
      const [username, setEmail] = useState("");
+     const navigate = useNavigate();
 
      const add = async() =>{
+     
         // await fetch("http://localhost:3000/api/v1/user/signup",{
         //         method:"POST",
         //         body: JSON.stringify({
@@ -32,7 +34,13 @@ const Signup = () => {
             username,
             password
     })
+    localStorage.setItem("token", response.data.token)
+    navigate("/")
     console.log(response.data);
+      setEmail("")
+      setFirstName("")
+      setLastName("")
+      setPassword("")
     }
 
 
